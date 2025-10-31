@@ -15,30 +15,39 @@ import LoginModal from "@/components/modals/login-modal"
 import PickupModal from "@/components/modals/pickup-modal"
 
 export default function Home() {
+  // ✅ State management
   const [activeTab, setActiveTab] = useState("dashboard")
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showPickupModal, setShowPickupModal] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  // ✅ Dynamic content renderer
   const renderContent = () => {
     switch (activeTab) {
       case "dashboard":
         return <Dashboard onSchedulePickup={() => setShowPickupModal(true)} />
+
       case "pickups":
         return <Pickups onSchedulePickup={() => setShowPickupModal(true)} />
+
       case "recyclers":
         return <Recyclers />
+
       case "leaderboard":
         return <Leaderboard />
+
       case "awareness":
         return <Awareness />
+
       case "profile":
         return <Profile onLogout={() => setIsLoggedIn(false)} />
+
       default:
         return <Dashboard onSchedulePickup={() => setShowPickupModal(true)} />
     }
   }
 
+  // ✅ Tab title mapping
   const getPageTitle = () => {
     const tabLabels: Record<string, string> = {
       dashboard: "Dashboard",
@@ -53,6 +62,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* ✅ Top Navigation */}
       <Navigation
         activeTab={activeTab}
         onTabChange={setActiveTab}
@@ -60,12 +70,23 @@ export default function Home() {
         isLoggedIn={isLoggedIn}
       />
 
-      {activeTab === "dashboard" && <Hero />}
+      {/* ✅ Hero section only visible on Dashboard */}
+      {activeTab === "dashboard" && (
+        <Hero
+          onNavigateToPickups={() => setActiveTab("pickups")}
+          onNavigateToAwareness={() => setActiveTab("awareness")}
+        />
+      )}
 
-      <LayoutWrapper title={activeTab !== "dashboard" ? getPageTitle() : undefined}>{renderContent()}</LayoutWrapper>
+      {/* ✅ Page content */}
+      <LayoutWrapper title={activeTab !== "dashboard" ? getPageTitle() : undefined}>
+        {renderContent()}
+      </LayoutWrapper>
 
+      {/* ✅ Footer */}
       <Footer />
 
+      {/* ✅ Login modal */}
       <LoginModal
         open={showLoginModal}
         onOpenChange={setShowLoginModal}
@@ -75,6 +96,7 @@ export default function Home() {
         }}
       />
 
+      {/* ✅ Pickup modal */}
       <PickupModal open={showPickupModal} onOpenChange={setShowPickupModal} />
     </div>
   )
