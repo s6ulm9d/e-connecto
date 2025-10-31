@@ -1,12 +1,19 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Leaf, Recycle, TrendingUp, Users, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import AnimatedCounter from "@/components/animated-counter"
 import TelanganaMap from "@/components/telangana-map"
 
+// Components
+import Awareness from "@/components/awareness"
+import Pickups from "@/components/pickups"
+
 export default function Hero() {
+  const [activeSection, setActiveSection] = useState<"none" | "pickups" | "awareness">("none")
+
   const stats = [
     { icon: Recycle, label: "E-Waste Collected", value: 2450, suffix: " Tons", color: "bg-primary" },
     { icon: Users, label: "Active Users", value: 12340, suffix: "", color: "bg-secondary" },
@@ -18,28 +25,23 @@ export default function Hero() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-16 md:py-24">
+      {/* Background effects */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Hero Text */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,20 +57,29 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            {/* Opens Pickups section */}
+            <Button
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              onClick={() => setActiveSection("pickups")}
+            >
               Schedule a Pickup
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
+
+            {/* Opens Awareness section */}
             <Button
               size="lg"
               variant="outline"
               className="border-primary text-primary hover:bg-primary/10 bg-transparent"
+              onClick={() => setActiveSection("awareness")}
             >
               Learn More
             </Button>
           </div>
         </motion.div>
 
+        {/* Map */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -78,6 +89,7 @@ export default function Hero() {
           <TelanganaMap />
         </motion.div>
 
+        {/* Stats */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -103,6 +115,12 @@ export default function Hero() {
             )
           })}
         </motion.div>
+
+        {/* Dynamically render Awareness or Pickups */}
+        <div className="mt-20">
+          {activeSection === "pickups" && <Pickups onSchedulePickup={() => alert("Pickup scheduled!")} />}
+          {activeSection === "awareness" && <Awareness />}
+        </div>
       </div>
     </section>
   )

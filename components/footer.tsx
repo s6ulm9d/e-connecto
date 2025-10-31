@@ -79,7 +79,7 @@ export default function Footer() {
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
                 <a href="mailto:srybroiambusy@gmail.com" className="hover:opacity-100 transition">
-                  srybroiambusy@gmail.com
+                  saisharanyagantela@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
