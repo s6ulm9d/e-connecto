@@ -8,9 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ReMAP Telangana - E-Waste Management & Circular Economy",
-  description: "Sustainable e-waste management platform for Telangana",
-  generator: "v0.app",
+  title: "e-connecto - Modern Digital Platform",
+  description: "A modern, feature-rich platform built with Next.js and React",
 }
 
 export default function RootLayout({
